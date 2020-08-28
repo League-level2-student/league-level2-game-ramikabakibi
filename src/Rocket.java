@@ -27,9 +27,8 @@ public class Rocket extends GameObject{
 	}
 	
 	void update() {
-		System.out.println( "1 " + x);
 		if (x + xspeed <= Game.WIDTH - width && x + xspeed >= 0) {
-			System.out.println("2 " + x);
+			
 			x += xspeed;
 		}
 	}

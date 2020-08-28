@@ -5,7 +5,7 @@ public class GameObject {
 	int y;
 	int width;
 	int height;
-	int speed=10;
+	int speed=5;
 	boolean isActive = true;
 	Rectangle collisionBox;
 

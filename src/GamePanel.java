@@ -17,7 +17,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	BufferedImage background = null;
 	Rocket rocket;
 	Timer frameDraw;
-
+    static int gameTimeSec=0;
+    long gameCounter=0;
+    ObjectManager manager;
 	GamePanel() {
 		try {
 			background = ImageIO.read(this.getClass().getResourceAsStream("space.jpg"));
@@ -26,7 +28,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			System.out.println("Could not display background");
 		}
 		rocket = new Rocket(300, 568, 100, 200);
+		manager=new ObjectManager(rocket);
 		frameDraw=new Timer(1000/60, this);
+		frameDraw.start();
 	}
 
 	@Override
@@ -37,6 +41,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		}
 		rocket.draw(g);
 		rocket.update();
+		manager.update();
+		manager.draw(g);
 	}
 
 	@Override
@@ -51,7 +57,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			}
 		}
 		
-		repaint();
+//		repaint();
 	}
 
 	@Override
@@ -72,6 +78,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		repaint();
+		gameCounter++;
+		if(gameCounter!=0 && gameCounter%60==0) {
+			gameTimeSec++;
+		}
 	}
 
 }
