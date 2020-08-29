@@ -27,6 +27,7 @@ public class Rocket extends GameObject{
 	}
 	
 	void update() {
+		super.update();
 		if (x + xspeed <= Game.WIDTH - width && x + xspeed >= 0) {
 			
 			x += xspeed;
@@ -37,5 +38,6 @@ public class Rocket extends GameObject{
 	
 	void draw(Graphics g) {
 		g.drawImage(rocketship, x, y, width, height, null);
+		g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 	}
 }

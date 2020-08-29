@@ -17,6 +17,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	BufferedImage background = null;
 	Rocket rocket;
 	Timer frameDraw;
+	Timer asteroidSpawn;
     static int gameTimeSec=0;
     long gameCounter=0;
     ObjectManager manager;
@@ -32,15 +33,52 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		frameDraw=new Timer(1000/60, this);
 		frameDraw.start();
 	}
+	
+	void updateMenuState() {
+		
+	}
+	
+	void updateGameState() {
+		if(rocket.isActive==false) {
+			currentState=END;
+		}
+	}
+	
+	void updateEndState() {
+		
+	}
+	void drawMenuState(Graphics g) {
+		
+	}
+	
+	void drawGameState(Graphics g) {
+		
+	}
+	
+	void drawEndState(Graphics g) {
+		
+	}
+	void startGame() {
+		asteroidSpawn=new Timer(1000, manager);
+		asteroidSpawn.start();
+	}
 
 	@Override
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		if(currentState==MENU) {
+			drawMenuState(g);
+		}
+		if(currentState==GAME) {
+			drawGameState(g);
+		}
+		if(currentState==END) {
+			drawEndState(g);
+		}
 		if (background != null) {
 			g.drawImage(background, 0, 0, Game.WIDTH, Game.HEIGHT, null);
 		}
-		rocket.draw(g);
-		rocket.update();
+		
 		manager.update();
 		manager.draw(g);
 	}
@@ -48,7 +86,24 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
-		if (currentState == MENU) {
+		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
+		    if (currentState == END){
+		    	currentState = MENU;
+		    	rocket=new Rocket(250,700,50,50);
+		    	manager=new ObjectManager(rocket);
+		    } 
+		    else {
+		        currentState++;
+		        if(currentState==GAME) {
+		        	startGame();
+		        }
+		        if(currentState==END) {
+		        	asteroidSpawn.stop();
+		        }
+		        
+		    }
+		}
+		if (currentState == GAME) {
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				rocket.right();
 			}

@@ -9,6 +9,7 @@ public class Asteroid extends GameObject{
 	public static boolean gotImage = false;	
 Asteroid(int x, int y, int width, int height){
 	super(x,y,width,height);
+	isActive=true;
 	if(needImage) {
 	loadImage("asteroid.jpg");	
 	}
@@ -16,11 +17,12 @@ Asteroid(int x, int y, int width, int height){
 }
 void update() {
 	y+=1;
-	
+	super.update();
 }
 
 void draw(Graphics g) {
 g.drawImage(image, x,y,width,height, null);	
+g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 }
 
 void loadImage(String imageFile) {
