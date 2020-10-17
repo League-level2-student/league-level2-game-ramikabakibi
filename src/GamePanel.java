@@ -1,3 +1,5 @@
+import java.awt.Color;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,6 +18,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	int currentState = MENU;
 	BufferedImage background = null;
 	Rocket rocket;
+	Font titleFont=new Font("Arial", Font.PLAIN, 48);
+	Font enterFont=new Font("Arial", Font.PLAIN, 30);
 	Timer frameDraw;
 	Timer asteroidSpawn;
     static int gameTimeSec=0;
@@ -42,16 +46,29 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		if(rocket.isActive==false) {
 			currentState=END;
 		}
+		manager.update();
 	}
 	
 	void updateEndState() {
 		
 	}
 	void drawMenuState(Graphics g) {
-		
+		g.setColor(Color.BLACK);
+		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+		g.setFont(titleFont);
+		g.setColor(Color.WHITE);
+		g.drawString("ROCKET RUN", 150, 200);
+		g.setFont(enterFont);
+		g.setColor(Color.WHITE);
+		g.drawString("Press ENTER to start", 150, 600);
 	}
 	
 	void drawGameState(Graphics g) {
+		if (background != null) {
+			g.drawImage(background, 0, 0, Game.WIDTH, Game.HEIGHT, null);
+		}
+		
+		manager.draw(g);
 		
 	}
 	
@@ -59,7 +76,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		
 	}
 	void startGame() {
-		asteroidSpawn=new Timer(1000, manager);
+		asteroidSpawn=new Timer(1500, manager);
 		asteroidSpawn.start();
 	}
 
@@ -75,17 +92,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		if(currentState==END) {
 			drawEndState(g);
 		}
-		if (background != null) {
-			g.drawImage(background, 0, 0, Game.WIDTH, Game.HEIGHT, null);
-		}
 		
-		manager.update();
-		manager.draw(g);
+		
+		
 	}
 
 	@Override
 	public void keyPressed(KeyEvent e) {
 		// TODO Auto-generated method stub
+		
 		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
 		    if (currentState == END){
 		    	currentState = MENU;
@@ -106,6 +121,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		if (currentState == GAME) {
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				rocket.right();
+				
 			}
 			if (e.getKeyCode() == KeyEvent.VK_LEFT) {
 				rocket.left();
@@ -132,11 +148,21 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
-		repaint();
+		
 		gameCounter++;
 		if(gameCounter!=0 && gameCounter%60==0) {
 			gameTimeSec++;
 		}
+		if(currentState==MENU) {
+			updateMenuState();
+		}
+		if(currentState==GAME) {
+			updateGameState();
+		}
+		if(currentState==END) {
+			updateEndState();
+		}
+		repaint();
 	}
 
 }
