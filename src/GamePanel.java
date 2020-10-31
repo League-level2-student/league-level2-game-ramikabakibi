@@ -25,6 +25,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     static int gameTimeSec=0;
     long gameCounter=0;
     ObjectManager manager;
+    int backgroundY=-400;
 	GamePanel() {
 		try {
 			background = ImageIO.read(this.getClass().getResourceAsStream("space.jpg"));
@@ -65,18 +66,28 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	
 	void drawGameState(Graphics g) {
 		if (background != null) {
-			g.drawImage(background, 0, 0, Game.WIDTH, Game.HEIGHT, null);
+			g.drawImage(background, 0, backgroundY, Game.WIDTH, Game.HEIGHT*2, null);
 		}
-		
+		backgroundY++;
+		if(backgroundY>0) {
+			backgroundY=-400;
+		}
 		manager.draw(g);
 		
 	}
 	
 	void drawEndState(Graphics g) {
-		
+		g.setColor(Color.BLUE);
+		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+		g.setFont(titleFont);
+		g.setColor(Color.BLACK);
+		g.drawString("GAME OVER", 150, 200);
+		g.setFont(enterFont);
+		g.setColor(Color.BLACK);
+		g.drawString("Press ENTER to restart", 150, 400);
 	}
 	void startGame() {
-		asteroidSpawn=new Timer(1500, manager);
+		asteroidSpawn=new Timer(2000, manager);
 		asteroidSpawn.start();
 	}
 
@@ -104,7 +115,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
 		    if (currentState == END){
 		    	currentState = MENU;
-		    	rocket=new Rocket(250,700,50,50);
+		    	rocket=new Rocket(300, 568, 100, 200);
 		    	manager=new ObjectManager(rocket);
 		    } 
 		    else {

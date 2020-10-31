@@ -14,7 +14,7 @@ ObjectManager(Rocket rocket){
 	
 }
 void addAsteroid(){
-	asteroids.add(new Asteroid(random.nextInt(Game.WIDTH),0, 65, 65));
+	asteroids.add(new Asteroid(random.nextInt(Game.WIDTH),0, 80, 80));
 }
 
 void checkCollision() {

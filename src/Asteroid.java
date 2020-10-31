@@ -16,13 +16,13 @@ double speedX=(rand.nextDouble()-0.5);
 		isActive = true;
 		exactX=x;
 		if (needImage) {
-			loadImage("asteroid.jpg");
+			loadImage("asteroid.png");
 		}
 
 	}
 
 	void update() {
-		y += 1;
+		y += 2;
 		exactX+=speedX;
 		x=(int)exactX;
 		super.update();
