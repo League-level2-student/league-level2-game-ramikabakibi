@@ -30,7 +30,7 @@ double speedX=(rand.nextDouble()-0.5);
 
 	void draw(Graphics g) {
 		g.drawImage(image, x, y, width, height, null);
-		g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+		//g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 	}
 
 	void loadImage(String imageFile) {

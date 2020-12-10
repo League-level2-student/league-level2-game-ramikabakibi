@@ -22,6 +22,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	Font enterFont=new Font("Arial", Font.PLAIN, 30);
 	Timer frameDraw;
 	Timer asteroidSpawn;
+	Timer fuelMeter;
+	int fuelLeft=200;
     static int gameTimeSec=0;
     long gameCounter=0;
     ObjectManager manager;
@@ -33,7 +35,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		} catch (Exception e) {
 			System.out.println("Could not display background");
 		}
-		rocket = new Rocket(300, 568, 100, 200);
+		rocket = new Rocket(300, 615, 80, 150);
 		manager=new ObjectManager(rocket);
 		frameDraw=new Timer(1000/60, this);
 		frameDraw.start();
@@ -72,7 +74,16 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		if(backgroundY>0) {
 			backgroundY=-400;
 		}
+		drawFuel(g);
 		manager.draw(g);
+		
+	}
+	void drawFuel(Graphics g) {
+		g.setColor(Color.GREEN);
+		g.fillRect(60, 60, fuelLeft, 30);
+		g.setColor(Color.WHITE);
+		g.setFont(enterFont);
+		g.drawString("Fuel: "+ fuelLeft,60,60);
 		
 	}
 	
@@ -89,6 +100,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	void startGame() {
 		asteroidSpawn=new Timer(2000, manager);
 		asteroidSpawn.start();
+		fuelMeter=new Timer(1000, this);
+		fuelMeter.start();
 	}
 
 	@Override
@@ -160,6 +173,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		
+		if(arg0.getSource()==fuelMeter) {
+			System.out.println("fuel" + fuelLeft);
+			if(currentState==GAME&& fuelLeft>=8) {
+				fuelLeft-=8;
+			}
+		}
+		
+		else {
 		gameCounter++;
 		if(gameCounter!=0 && gameCounter%60==0) {
 			gameTimeSec++;
@@ -174,6 +195,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			updateEndState();
 		}
 		repaint();
+		}
 	}
 
 }

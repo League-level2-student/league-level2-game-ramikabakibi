@@ -16,6 +16,7 @@ public class Rocket extends GameObject{
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		System.out.println(""+width + ", " + height);
 	}
 
 	public void right() {
@@ -38,6 +39,7 @@ public class Rocket extends GameObject{
 	
 	void draw(Graphics g) {
 		g.drawImage(rocketship, x, y, width, height, null);
-		g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+		System.out.println(""+width + ", " + height);
+		//g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 	}
 }
