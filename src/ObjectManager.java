@@ -4,14 +4,20 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Random;
 
+import javax.swing.Timer;
+
 public class ObjectManager implements ActionListener{
 Rocket falcon;
+Timer fuelTankSpawn;
+Timer asteroidSpawn;
 ArrayList<Asteroid> asteroids=new ArrayList<Asteroid>();
 Random random=new Random();
 ObjectManager(Rocket rocket){
 	falcon=rocket;
-	addAsteroid();
-	
+	asteroidSpawn=new Timer(2000, this);
+	asteroidSpawn.start();
+	fuelTankSpawn=new Timer(15000, this);
+	fuelTankSpawn.start();
 }
 void addAsteroid(){
 	asteroids.add(new Asteroid(random.nextInt(Game.WIDTH),0, 80, 80));
@@ -32,6 +38,7 @@ void checkCollision() {
 void update(){
 	
 	falcon.update();
+	
 	for(int i=0; i<asteroids.size();i++) {
 		asteroids.get(i).update();
 		if(asteroids.get(i).y>Game.HEIGHT) {
@@ -40,6 +47,9 @@ void update(){
 	}
 	checkCollision();
 	purgeObjects();
+	if(!falcon.isActive) {
+		asteroidSpawn.stop();
+	}
 }
 
 void draw(Graphics g) {
@@ -58,6 +68,12 @@ void purgeObjects() {
 @Override
 public void actionPerformed(ActionEvent arg0) {
 	// TODO Auto-generated method stub
+if(arg0.getSource()==fuelTankSpawn) {
+	System.out.println("Fuel");
+ 
+}
+else {
 	addAsteroid();
+}
 }
 }

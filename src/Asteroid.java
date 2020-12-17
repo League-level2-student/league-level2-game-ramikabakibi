@@ -10,7 +10,7 @@ public class Asteroid extends GameObject {
 	public static boolean gotImage = false;
 double exactX;
 Random rand=new Random();
-double speedX=(rand.nextDouble()-0.5);
+double speedX=(rand.nextDouble()-1.2);
 	Asteroid(int x, int y, int width, int height) {
 		super(x, y, width, height);
 		isActive = true;

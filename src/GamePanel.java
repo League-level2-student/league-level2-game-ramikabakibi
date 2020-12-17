@@ -21,7 +21,6 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	Font titleFont=new Font("Arial", Font.PLAIN, 48);
 	Font enterFont=new Font("Arial", Font.PLAIN, 30);
 	Timer frameDraw;
-	Timer asteroidSpawn;
 	Timer fuelMeter;
 	int fuelLeft=200;
     static int gameTimeSec=0;
@@ -35,10 +34,14 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		} catch (Exception e) {
 			System.out.println("Could not display background");
 		}
-		rocket = new Rocket(300, 615, 80, 150);
-		manager=new ObjectManager(rocket);
+		createRocket();
 		frameDraw=new Timer(1000/60, this);
 		frameDraw.start();
+	}
+	
+	void createRocket() {
+		rocket = new Rocket(300, 615, 80, 150);
+		manager=new ObjectManager(rocket);
 	}
 	
 	void updateMenuState() {
@@ -98,8 +101,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g.drawString("Press ENTER to restart", 150, 400);
 	}
 	void startGame() {
-		asteroidSpawn=new Timer(2000, manager);
-		asteroidSpawn.start();
+		
+		
 		fuelMeter=new Timer(1000, this);
 		fuelMeter.start();
 	}
@@ -128,8 +131,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		if (e.getKeyCode()==KeyEvent.VK_ENTER) {
 		    if (currentState == END){
 		    	currentState = MENU;
-		    	rocket=new Rocket(300, 568, 100, 200);
-		    	manager=new ObjectManager(rocket);
+		    	createRocket();
+		    	fuelLeft=200;
 		    } 
 		    else {
 		        currentState++;
@@ -137,7 +140,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		        	startGame();
 		        }
 		        if(currentState==END) {
-		        	asteroidSpawn.stop();
+		        	
 		        }
 		        
 		    }
@@ -174,7 +177,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		// TODO Auto-generated method stub
 		
 		if(arg0.getSource()==fuelMeter) {
-			System.out.println("fuel" + fuelLeft);
+			
+			if(fuelLeft==0) {
+				currentState=END;
+				fuelLeft=200;
+			}
 			if(currentState==GAME&& fuelLeft>=8) {
 				fuelLeft-=8;
 			}
