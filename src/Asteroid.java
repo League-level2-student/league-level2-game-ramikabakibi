@@ -22,7 +22,7 @@ double speedX=(rand.nextDouble()-1.2);
 	}
 
 	void update() {
-		y += 2;
+		y += 3;
 		exactX+=speedX;
 		x=(int)exactX;
 		super.update();
@@ -30,7 +30,7 @@ double speedX=(rand.nextDouble()-1.2);
 
 	void draw(Graphics g) {
 		g.drawImage(image, x, y, width, height, null);
-		//g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+	//g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 	}
 
 	void loadImage(String imageFile) {

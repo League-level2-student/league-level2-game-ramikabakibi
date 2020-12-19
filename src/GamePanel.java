@@ -22,7 +22,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	Font enterFont=new Font("Arial", Font.PLAIN, 30);
 	Timer frameDraw;
 	Timer fuelMeter;
-	int fuelLeft=200;
+	public static int fuelLeft=200;
     static int gameTimeSec=0;
     long gameCounter=0;
     ObjectManager manager;

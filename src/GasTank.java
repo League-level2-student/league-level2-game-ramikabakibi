@@ -1,3 +1,4 @@
+import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
@@ -14,11 +15,13 @@ GasTank(int x, int y, int width, int height){
 }
 
 void update() {
-	
+	y+=2;
+	super.update();
 }
 
-void draw() {
-	
+void draw(Graphics g) {
+g.drawImage(image, x, y, width, height, null);
+//g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
 }
 	
 
