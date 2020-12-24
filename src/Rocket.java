@@ -6,10 +6,12 @@ import javax.imageio.ImageIO;
 
 public class Rocket extends GameObject{
 	int xspeed;
+	boolean shielded=false;
 	BufferedImage rocketship=null;
 	
 	Rocket(int x, int y, int width, int height) {
 		super(x, y, width, height);
+		shielded=false;
 		try {
 			rocketship= ImageIO.read(this.getClass().getResourceAsStream("rocket.png"));
 		} catch (IOException e) {

@@ -22,11 +22,15 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	Font enterFont=new Font("Arial", Font.PLAIN, 30);
 	Timer frameDraw;
 	Timer fuelMeter;
+	Timer shieldTimer;
 	public static int fuelLeft=200;
     static int gameTimeSec=0;
     long gameCounter=0;
     ObjectManager manager;
     int backgroundY=-400;
+    int shield=0;
+    int score=0;
+    int boostCounter=0;
 	GamePanel() {
 		try {
 			background = ImageIO.read(this.getClass().getResourceAsStream("space.jpg"));
@@ -78,16 +82,39 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			backgroundY=-400;
 		}
 		drawFuel(g);
+		drawBoost(g);
+		drawScore(g);
 		manager.draw(g);
 		
 	}
 	void drawFuel(Graphics g) {
 		g.setColor(Color.GREEN);
-		g.fillRect(60, 60, fuelLeft, 30);
+		g.fillRect(20, 30, fuelLeft, 30);
 		g.setColor(Color.WHITE);
 		g.setFont(enterFont);
-		g.drawString("Fuel: "+ fuelLeft,60,60);
+		g.drawString("Fuel: "+ fuelLeft,20,27);
 		
+	}
+	
+	void drawBoost(Graphics g) {
+		g.setColor(Color.RED);
+		g.fillRect(20, 83, shield, 30);
+		g.setColor(Color.WHITE);
+		g.setFont(enterFont);
+		g.drawString("Shield: "+ shield, 20, 83);
+	}
+	void drawScore(Graphics g) {
+		g.setColor(Color.WHITE);
+		g.setFont(enterFont);
+		g.drawString("Score: "+ score , 450, 30);
+	}
+	
+	void askShield(Graphics g) {
+		if(shield==100) {
+			g.setColor(Color.WHITE);
+			g.setFont(enterFont);
+			g.drawString("Press Enter to Activate Shield", 300, 35);
+		}
 	}
 	
 	void drawEndState(Graphics g) {
@@ -102,7 +129,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 	void startGame() {
 		
-		
+		shieldTimer=new Timer(1000, this);
+		shieldTimer.start();
 		fuelMeter=new Timer(1000, this);
 		fuelMeter.start();
 	}
@@ -133,6 +161,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		    	currentState = MENU;
 		    	createRocket();
 		    	fuelLeft=200;
+		    	shield=0;
 		    } 
 		    else {
 		        currentState++;
@@ -176,6 +205,28 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		
+		if(arg0.getSource()==shieldTimer&& currentState==GAME) {
+			if(shield<=95) {
+				shield+=5;
+				if(shield==100) {
+					rocket.shielded=true;
+					
+				}
+			}
+			if(rocket.shielded) {
+				boostCounter++;
+				if(boostCounter==7) {
+					boostCounter=0;
+					rocket.shielded=false;
+					shield=0;
+				}
+			}
+			
+			
+			if(currentState==END) {
+				shield=0;
+			}
+		}
 		if(arg0.getSource()==fuelMeter) {
 			
 			if(fuelLeft==0) {

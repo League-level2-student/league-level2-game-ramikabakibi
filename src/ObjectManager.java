@@ -29,12 +29,13 @@ void addTanks() {
 }
 
 void checkCollision() {
+	if(!falcon.shielded) {
 	for(int i=0; i<asteroids.size();i++) {
 		if(falcon.collisionBox.intersects(asteroids.get(i).collisionBox)){
 			falcon.isActive=false;
 			asteroids.get(i).isActive=false;
 		}
-		
+	}
 	}
 	for(int i=0; i<tanks.size(); i++) {
 		if(falcon.collisionBox.intersects(tanks.get(i).collisionBox)) {
