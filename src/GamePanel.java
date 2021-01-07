@@ -20,6 +20,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	Rocket rocket;
 	Font titleFont=new Font("Arial", Font.PLAIN, 48);
 	Font enterFont=new Font("Arial", Font.PLAIN, 30);
+	Font smallFont=new Font("Arial", Font.PLAIN, 24);
 	Timer frameDraw;
 	Timer fuelMeter;
 	Timer shieldTimer;
@@ -31,6 +32,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     int shield=0;
     int score=0;
     int boostCounter=0;
+    boolean shieldAvailable=false;
+    int level=1;
 	GamePanel() {
 		try {
 			background = ImageIO.read(this.getClass().getResourceAsStream("space.jpg"));
@@ -46,6 +49,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	void createRocket() {
 		rocket = new Rocket(300, 615, 80, 150);
 		manager=new ObjectManager(rocket);
+		shieldAvailable=false;
 	}
 	
 	void updateMenuState() {
@@ -53,7 +57,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 	
 	void updateGameState() {
-		if(rocket.isActive==false) {
+		if(!rocket.isActive) {
 			currentState=END;
 		}
 		manager.update();
@@ -80,6 +84,11 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		backgroundY++;
 		if(backgroundY>0) {
 			backgroundY=-400;
+		}
+		if(shieldAvailable) {
+			g.setColor(Color.WHITE);
+			g.setFont(smallFont);
+			g.drawString("Press Enter to Activate Shield", 230, 50);
 		}
 		drawFuel(g);
 		drawBoost(g);
@@ -109,13 +118,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g.drawString("Score: "+ score , 450, 30);
 	}
 	
-	void askShield(Graphics g) {
-		if(shield==100) {
-			g.setColor(Color.WHITE);
-			g.setFont(enterFont);
-			g.drawString("Press Enter to Activate Shield", 300, 35);
-		}
-	}
+	
 	
 	void drawEndState(Graphics g) {
 		g.setColor(Color.BLUE);
@@ -163,6 +166,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		    	fuelLeft=200;
 		    	shield=0;
 		    } 
+		    else if(currentState==GAME) {
+		    	if(shieldAvailable) {
+		    		rocket.shielded=true;
+		    		shieldAvailable=false;
+		    	}
+		    }
 		    else {
 		        currentState++;
 		        if(currentState==GAME) {
@@ -209,7 +218,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			if(shield<=95) {
 				shield+=5;
 				if(shield==100) {
-					rocket.shielded=true;
+					shieldAvailable=true;
 					
 				}
 			}
@@ -218,6 +227,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 				if(boostCounter==7) {
 					boostCounter=0;
 					rocket.shielded=false;
+					shieldAvailable=false;
 					shield=0;
 				}
 			}
@@ -225,9 +235,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			
 			if(currentState==END) {
 				shield=0;
+				shieldAvailable=false;
 			}
 		}
-		if(arg0.getSource()==fuelMeter) {
+		else if(arg0.getSource()==fuelMeter) {
 			
 			if(fuelLeft==0) {
 				currentState=END;
@@ -237,8 +248,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 				fuelLeft-=8;
 			}
 		}
-		
-		else {
+		//THIS IS THE TIMER BELOW I AM GOING TO USE TO INCREMENT THE LEVELS,(i have a level variable at the top)
+		//I think the way I'll use the timer is to say if a certain amount of milliseconds or time or whatever
+		//has passed, then up the level. Like every time the timer goes up by a certain amount of seconds,
+		//increase the level. Everything will have to be sorted into categories, like if the level is 1
+		//then do this and more ifs and stuf....
+		else if(arg0.getSource()==frameDraw){
 		gameCounter++;
 		if(gameCounter!=0 && gameCounter%60==0) {
 			gameTimeSec++;
