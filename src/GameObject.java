@@ -5,16 +5,17 @@ public class GameObject {
 	int y;
 	int width;
 	int height;
-	int speed=8;
+	int speed;
 	boolean isActive = true;
 	Rectangle collisionBox;
 
-	GameObject(int x, int y, int width, int height) {
+	GameObject(int x, int y, int width, int height, int speed) {
 		collisionBox = new Rectangle(x, y, width, height);
 		this.x = x;
 		this.y = y;
 		this.width = width;
 		this.height = height;
+		this.speed=speed;
 
 	}
 

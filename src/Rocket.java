@@ -9,8 +9,8 @@ public class Rocket extends GameObject{
 	boolean shielded=false;
 	BufferedImage rocketship=null;
 	
-	Rocket(int x, int y, int width, int height) {
-		super(x, y, width, height);
+	Rocket(int x, int y, int width, int height, int speed) {
+		super(x, y, width, height, speed);
 		shielded=false;
 		try {
 			rocketship= ImageIO.read(this.getClass().getResourceAsStream("rocket.png"));

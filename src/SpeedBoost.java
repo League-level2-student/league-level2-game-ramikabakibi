@@ -1,39 +1,37 @@
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
-import java.util.Random;
 
 import javax.imageio.ImageIO;
 
-public class Asteroid extends GameObject {
+public class SpeedBoost extends GameObject{
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
-double exactX;
-Random rand=new Random();
-double speedX=(rand.nextDouble()-1.2);
-	Asteroid(int x, int y, int width, int height, int speed) {
+	boolean boosted=false;
+	SpeedBoost(int x, int y, int width, int height, int speed) {
 		super(x, y, width, height, speed);
-		isActive = true;
-		exactX=x;
-		if (needImage) {
-			loadImage("asteroid.png");
+		if(needImage) {
+			loadImage("speedboost.png");
 		}
-
 	}
 
+	
 	void update() {
 		
-		y += speed;
-		exactX+=speedX;
-		x=(int)exactX;
+		y+=speed;
 		super.update();
+		
 	}
-
+	
 	void draw(Graphics g) {
 		g.drawImage(image, x, y, width, height, null);
-	//g.drawRect(collisionBox.x, collisionBox.y, collisionBox.width, collisionBox.height);
+		
 	}
-
+	void speedIncrease() {
+		y+=8;
+		super.update();
+	}
+	
 	void loadImage(String imageFile) {
 		if (needImage) {
 			try {

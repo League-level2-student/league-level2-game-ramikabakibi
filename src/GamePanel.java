@@ -47,7 +47,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	}
 	
 	void createRocket() {
-		rocket = new Rocket(300, 615, 80, 150);
+		rocket = new Rocket(300, 615, 80, 150, 6);
 		manager=new ObjectManager(rocket);
 		shieldAvailable=false;
 	}

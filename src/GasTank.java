@@ -7,15 +7,16 @@ public class GasTank extends GameObject {
 	public static BufferedImage image;
 	public static boolean needImage = true;
 	public static boolean gotImage = false;
-GasTank(int x, int y, int width, int height){
-	super(x,y,width,height);
+GasTank(int x, int y, int width, int height, int speed){
+	super(x,y,width,height, speed);
 	if(needImage) {
 		loadImage("gastank.png");
 	}
 }
 
 void update() {
-	y+=2;
+	
+	y+=speed;
 	super.update();
 }
 
