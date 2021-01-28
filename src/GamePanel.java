@@ -31,7 +31,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
     int backgroundY=-400;
     int shield=0;
     int score=0;
-    int boostCounter=0;
+    int shieldCounter=0;
+    int maxShield=100;
     boolean shieldAvailable=false;
     int level=1;
 	GamePanel() {
@@ -91,8 +92,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 			g.drawString("Press Enter to Activate Shield", 230, 50);
 		}
 		drawFuel(g);
-		drawBoost(g);
+		drawShield(g);
 		drawScore(g);
+		drawShieldDecreasing(g);
 		manager.draw(g);
 		
 	}
@@ -104,8 +106,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g.drawString("Fuel: "+ fuelLeft,20,27);
 		
 	}
-	
-	void drawBoost(Graphics g) {
+	void drawShieldDecreasing(Graphics g) {
+		g.setColor(Color.RED);
+		g.fillRect(20,83, maxShield, 30);
+		
+	}
+	void drawShield(Graphics g) {
 		g.setColor(Color.RED);
 		g.fillRect(20, 83, shield, 30);
 		g.setColor(Color.WHITE);
@@ -223,15 +229,29 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 				}
 			}
 			if(rocket.shielded) {
-				boostCounter++;
-				if(boostCounter==7) {
-					boostCounter=0;
+				shieldCounter++;
+				
+				if(shieldCounter==10) {
+					shieldCounter=0;
+					System.out.println("No shield");
 					rocket.shielded=false;
 					shieldAvailable=false;
 					shield=0;
+					maxShield=100;
 				}
 			}
-			
+			if(rocket.shielded&&maxShield>=10) {
+				maxShield-=10;
+			}
+			if(rocket.boosted) {
+				rocket.boostCounter++;
+			System.out.println(rocket.boostCounter);
+			if(rocket.boostCounter==10) {
+				rocket.resetBoost();
+				System.out.println("no boost");
+				
+			}
+			}
 			
 			if(currentState==END) {
 				shield=0;

@@ -8,7 +8,8 @@ public class Rocket extends GameObject{
 	int xspeed;
 	boolean shielded=false;
 	BufferedImage rocketship=null;
-	
+	boolean boosted=false;
+	int boostCounter=0;
 	Rocket(int x, int y, int width, int height, int speed) {
 		super(x, y, width, height, speed);
 		shielded=false;
@@ -24,7 +25,16 @@ public class Rocket extends GameObject{
 	public void right() {
 		xspeed = speed;
 	}
-
+public void boost() {
+	speed=17;
+	boosted=true;
+	boostCounter=0;
+}
+public void resetBoost() {
+	speed=6;
+	boosted=false;
+	boostCounter=0;
+}
 	public void left() {
 		xspeed = -speed;
 	}

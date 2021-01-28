@@ -32,6 +32,7 @@ void addTanks() {
 	tanks.add(new GasTank(random.nextInt(Game.WIDTH), 0, 50, 50, 2 ));
 }
 
+
 void addBoosts() {
 	boosts.add(new SpeedBoost(random.nextInt(Game.WIDTH), 0, 50, 50, 2 ));
 }
@@ -54,7 +55,7 @@ void checkCollision() {
 	
 	for(int i=0; i<boosts.size(); i++) {
 		if(falcon.collisionBox.intersects(boosts.get(i).collisionBox)) {
-			falcon.speed=11;
+			falcon.boost();
 			boosts.get(i).isActive=false;
 		}
 	}
