@@ -8,6 +8,7 @@ import java.awt.event.KeyListener;
 import java.awt.image.BufferedImage;
 
 import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -81,6 +82,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	void drawDirections(Graphics g) {
 		g.setColor(Color.green);
 		g.fillRect(0, 0, Game.WIDTH, Game.HEIGHT);
+		g.setColor(Color.BLACK);
+		g.setFont(titleFont);
+		g.drawString("DIRECTIONS", 150, 70);
+		g.setFont(smallFont);;
+		g.drawString("Welcome to Rocket Run! ", 150, 120);
+		g.drawString("This is a very simple game. Use your left and right arrow keys to move the rocket around", 4, 135);
+		
 	}
 	void drawGameState(Graphics g) {
 		if (background != null) {
@@ -175,6 +183,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		if(currentState==END) {
 			drawEndState(g);
 		}
+		if(currentState==DIRECTIONS) {
+			drawDirections(g);
+		}
 		
 		
 		
@@ -207,7 +218,13 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		        }
 		        
 		    }
+		    if(currentState==MENU&&e.getKeyCode()==KeyEvent.VK_D) {
+		    System.out.println("directions");
+		    	JOptionPane.showMessageDialog(null, "Welcome to Rocket Run! This is a very simple game. The objective: simply get the highest score you can! Use the left and right arrow keys to move your rocket around. Asteroids will be falling down from the top of the screen, so make sure you avoid those, or you'll die! Your rocket also has a green fuel gauge in the upper left hand corner, and your fuel will be decreasing every second, so make sure you collect the red fuel tanks! You also have a shield that will fill up over time, so press the enter key when it is full, and you will be invincible to the asteroids! Lastly, shield boost tokens will descend every once in a while, so this will give you heightened speed for a short amount of time, indicated by a gauge that will appear in the lower left hand corner. Those are all the directions, so have fun playing1");
+		    }
 		}
+		
+		
 		if (currentState == GAME) {
 			if (e.getKeyCode() == KeyEvent.VK_RIGHT) {
 				rocket.right();
