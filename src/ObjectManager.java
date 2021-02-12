@@ -17,9 +17,9 @@ ArrayList<SpeedBoost> boosts=new ArrayList<SpeedBoost>();
 Random random=new Random();
 ObjectManager(Rocket rocket){
 	falcon=rocket;
-	asteroidSpawn=new Timer(2000, this);
+	asteroidSpawn=new Timer(1500, this);
 	asteroidSpawn.start();
-	fuelTankSpawn=new Timer(17000, this);
+	fuelTankSpawn=new Timer(15500, this);
 	fuelTankSpawn.start();
 	speedBoostSpawn=new Timer(30000, this);
 	speedBoostSpawn.start();

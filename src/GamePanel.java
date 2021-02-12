@@ -26,6 +26,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	Timer frameDraw;
 	Timer fuelMeter;
 	Timer shieldTimer;
+	Timer scoreTimer;
 	public static int fuelLeft=200;
     static int gameTimeSec=0;
     long gameCounter=0;
@@ -159,9 +160,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		g.setFont(titleFont);
 		g.setColor(Color.BLACK);
 		g.drawString("GAME OVER", 150, 200);
-		g.setFont(enterFont);
+		g.setFont(titleFont);
 		g.setColor(Color.BLACK);
-		g.drawString("Press ENTER to restart", 150, 400);
+		g.drawString("Press ENTER to restart", 70, 500);
+		scoreTimer.stop();
+		g.drawString("Your Score: "+ score, 150, 380);
+		
 	}
 	void startGame() {
 		
@@ -169,6 +173,8 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		shieldTimer.start();
 		fuelMeter=new Timer(1000, this);
 		fuelMeter.start();
+		scoreTimer=new Timer(1000, this);
+		scoreTimer.start();
 	}
 
 	@Override
@@ -182,6 +188,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		}
 		if(currentState==END) {
 			drawEndState(g);
+			
 		}
 		if(currentState==DIRECTIONS) {
 			drawDirections(g);
@@ -201,6 +208,7 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		    	createRocket();
 		    	fuelLeft=200;
 		    	shield=0;
+		    	score=0;
 		    } 
 		    else if(currentState==GAME) {
 		    	if(shieldAvailable) {
@@ -218,11 +226,12 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		        }
 		        
 		    }
+		}
 		    if(currentState==MENU&&e.getKeyCode()==KeyEvent.VK_D) {
 		    System.out.println("directions");
-		    	JOptionPane.showMessageDialog(null, "Welcome to Rocket Run! This is a very simple game. The objective: simply get the highest score you can! Use the left and right arrow keys to move your rocket around. Asteroids will be falling down from the top of the screen, so make sure you avoid those, or you'll die! Your rocket also has a green fuel gauge in the upper left hand corner, and your fuel will be decreasing every second, so make sure you collect the red fuel tanks! You also have a shield that will fill up over time, so press the enter key when it is full, and you will be invincible to the asteroids! Lastly, shield boost tokens will descend every once in a while, so this will give you heightened speed for a short amount of time, indicated by a gauge that will appear in the lower left hand corner. Those are all the directions, so have fun playing1");
+		    	JOptionPane.showMessageDialog(null, "Welcome to Rocket Run! This is a very simple game. The objective: simply get the highest score you can! Use the left and right arrow keys to move your rocket around. Asteroids will be falling down from the top of the screen, so make sure you avoid those, or you'll die!" +System.lineSeparator() +"Your rocket also has a green fuel gauge in the upper left hand corner, and your fuel will be decreasing every second, so make sure you collect the red fuel tanks! You also have a shield that will fill up over time, so press the enter key when it is full, and you will be invincible to the asteroids!"+System.lineSeparator()+" Lastly, shield boost tokens will descend every once in a while, so this will give you heightened speed for a short amount of time, indicated by a gauge that will appear in the lower left hand corner. Those are all the directions, so have fun playing!", "Directions for Rocket Run!", JOptionPane.INFORMATION_MESSAGE);
 		    }
-		}
+		
 		
 		
 		if (currentState == GAME) {
@@ -256,6 +265,9 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 	public void actionPerformed(ActionEvent arg0) {
 		// TODO Auto-generated method stub
 		
+		if(arg0.getSource()==scoreTimer) {
+			score++;
+		}
 		if(arg0.getSource()==shieldTimer&& currentState==GAME) {
 			if(shield<=95) {
 				shield+=5;
@@ -312,8 +324,10 @@ public class GamePanel extends JPanel implements KeyListener, ActionListener {
 		//then do this and more ifs and stuf....
 		else if(arg0.getSource()==frameDraw){
 		gameCounter++;
+		
 		if(gameCounter!=0 && gameCounter%60==0) {
 			gameTimeSec++;
+			
 		}
 		if(currentState==MENU) {
 			updateMenuState();
